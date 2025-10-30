@@ -62,11 +62,9 @@ float mapValue(float value, float inputMin, float inputMax, float outputMin, flo
     return ((value - inputMin) * outputRange / inputRange) + outputMin;
 }
 
-void applyDeadzone(float *value, float center, float deadzone) {
-    float upper = center + deadzone;
-    float lower = center - deadzone;
-
-    if (*value < lower) *value += deadzone;
-    else if (*value > upper) *value -= deadzone;
-    else *value = center;
+int mapFloatToInt(float x, float in_min, float in_max, int out_min, int out_max) {
+    float result = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    if (result < out_min) result = out_min;
+    if (result > out_max) result = out_max;
+    return (int)result;
 }
