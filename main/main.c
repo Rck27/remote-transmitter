@@ -131,12 +131,19 @@ void button_control () {
 void imu_task(void *pvParameters)
 {
     imu_init();
-    filter_init(&imu_right,500.0f);
-    filter_set_gains(&imu_right,1.0f, 0.002f);
+    filter_init(&imu_right,1000.0f);
+    filter_set_gains(&imu_right,5.0f, 0.003f);
+    filter_configure_gyro(&imu_right, 0, FILTER_PT1, 90,0);
+    filter_configure_gyro(&imu_right, 1, FILTER_NOTCH, 250, 200);
+    filter_configure_accel(&imu_right, 0, FILTER_BIQUAD, 20, 0);
+
     filter_set_deadzone(&imu_right,1.0f);
 
-    filter_init(&imu_left,500.0f);
-    filter_set_gains(&imu_left,1.0f, 0.002f);
+    filter_init(&imu_left,1000.0f);
+    filter_set_gains(&imu_left,5.0f, 0.003f);
+    filter_configure_gyro(&imu_left, 0, FILTER_PT1, 90,0);
+    filter_configure_gyro(&imu_left, 1, FILTER_NOTCH, 250, 200);
+    filter_configure_accel(&imu_left, 0, FILTER_BIQUAD, 20, 0);
     filter_set_deadzone(&imu_left,1.0f);
 
     while (1)
@@ -196,7 +203,7 @@ void imu_task(void *pvParameters)
         }
 
 
-    vTaskDelay(pdMS_TO_TICKS(2));
+    vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
 
